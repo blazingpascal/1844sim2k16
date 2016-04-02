@@ -1,3 +1,4 @@
+package com.example.dan.telegraphkeyboard;
 
 public class MorseListener {
 	private StringBuilder sb = new StringBuilder();
