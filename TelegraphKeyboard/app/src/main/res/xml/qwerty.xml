@@ -2,8 +2,8 @@
           android:keyWidth="10%p"
           android:horizontalGap="0px"
           android:verticalGap="0px"
-          android:keyHeight="60dp">
+          android:keyHeight="120dp">
     <Row>
-        <Key android:codes="28" android:keyLabel="." android:keyWidth="90%p" />
+        <Key android:codes="28" android:keyLabel="" android:keyWidth="100%p" />
     </Row>
 </Keyboard>

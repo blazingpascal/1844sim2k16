@@ -5,39 +5,67 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.view.View;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Telegraph extends InputMethodService implements KeyboardView.OnKeyboardActionListener
 {
     private KeyboardView kv;
     private Keyboard keyboard;
-    private MorseListener state = new MorseListener(); // dj's thing
-    private Translator translator = new Translator(); // michael's thing
+    private MorseListener state = new MorseListener();
+    private Timer scheduler = new Timer();
+    private boolean isBackspace = false;
 
     public View onCreateInputView() {
         kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         keyboard = new Keyboard(this, R.xml.qwerty);
         kv.setKeyboard(keyboard);
         kv.setOnKeyboardActionListener(this);
+        kv.setPreviewEnabled(false);
         return kv;
     }
 
-//    private void playSound(int keyCode){
-//        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
-//        am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);
-//    }
-
     public void onPress(int primaryCode) {
-        String dotsAndDashes = state.press(System.currentTimeMillis());
+        TimerTask backspace = new TimerTask() {
+            public void run() {
+                isBackspace = true;
+                getCurrentInputConnection().deleteSurroundingText(1, 0);
+            }
+        };
 
-        if (dotsAndDashes != null) {
-            String character = translator.translate(dotsAndDashes);
-            getCurrentInputConnection().commitText(character, 1);
-//            playSound(primaryCode);
-        }
+        isBackspace = false;
+        state.press(System.currentTimeMillis());
+        scheduler.cancel();
+        scheduler = new Timer();
+        scheduler.scheduleAtFixedRate(backspace, (long)(7 * MorseListener.DOT), (long)(2 * MorseListener.DOT));
     }
 
     public void onRelease(int primaryCode) {
+        TimerTask space = new TimerTask() {
+            public void run() {
+                getCurrentInputConnection().commitText(" ", 1);
+            }
+        };
+
+        TimerTask print = new TimerTask() {
+            public void run() {
+                String dotsAndDashes = state.getCurrentState();
+
+                if (dotsAndDashes != null && !isBackspace) {
+                    String character = Translator.translate(dotsAndDashes);
+                    getCurrentInputConnection().commitText(character, 1);
+//                    AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+//                    am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);
+                }
+
+                scheduler.schedule(space, (long)(4 * MorseListener.DOT));
+            }
+        };
+
         state.release(System.currentTimeMillis());
+        scheduler.cancel();
+        scheduler = new Timer();
+        scheduler.schedule(print, (long)MorseListener.DASH);
     }
 
     // random interface crap
