@@ -34,4 +34,8 @@ public class MorseListener {
 			sb.append("-");
 		}
 	}
+	
+	String getCurrentState(){
+		return sb.toString();
+	}
 }
