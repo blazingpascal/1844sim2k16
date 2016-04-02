@@ -5,7 +5,8 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.view.View;
-import android.view.inputmethod.InputConnection;
+//import android.R;
+//import com.example.dan.telegraphkeyboard.R;
 
 public class Telegraph extends InputMethodService implements KeyboardView.OnKeyboardActionListener
 {
@@ -18,6 +19,7 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
         kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         keyboard = new Keyboard(this, R.xml.qwerty);
         kv.setKeyboard(keyboard);
+//        android.R.layout
         kv.setOnKeyboardActionListener(this);
         return kv;
     }
@@ -41,27 +43,11 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
         state.release(System.currentTimeMillis());
     }
 
-    public void onKey(int primaryCode, int[] keyCodes) {
-
-    }
-
-    public void onText(CharSequence text) {
-
-    }
-
-    public void swipeLeft() {
-
-    }
-
-    public void swipeRight() {
-
-    }
-
-    public void swipeDown() {
-
-    }
-
-    public void swipeUp() {
-
-    }
+    // random interface crap
+    public void onKey(int primaryCode, int[] keyCodes) { }
+    public void onText(CharSequence text) { }
+    public void swipeLeft() { }
+    public void swipeRight() { }
+    public void swipeDown() { }
+    public void swipeUp() { }
 }
