@@ -5,8 +5,6 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.view.View;
-//import android.R;
-//import com.example.dan.telegraphkeyboard.R;
 
 public class Telegraph extends InputMethodService implements KeyboardView.OnKeyboardActionListener
 {
@@ -19,7 +17,6 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
         kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         keyboard = new Keyboard(this, R.xml.qwerty);
         kv.setKeyboard(keyboard);
-//        android.R.layout
         kv.setOnKeyboardActionListener(this);
         return kv;
     }
