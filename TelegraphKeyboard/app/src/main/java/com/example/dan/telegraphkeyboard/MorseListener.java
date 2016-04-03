@@ -5,8 +5,8 @@ public class MorseListener {
 	private long timeSince;
 	private long start;
 	private long end;
-	public static final double DOT = 150;
-	public static final double DASH = 3 * DOT;
+	public static final long DOT = 200;
+	public static final long DASH = 3 * DOT;
 
 	String press(long millis){
 		start = millis;

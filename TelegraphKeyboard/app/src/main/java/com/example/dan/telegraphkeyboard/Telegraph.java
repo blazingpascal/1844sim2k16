@@ -15,11 +15,10 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
     private Timer scheduler = new Timer();
     private AudioTrack player;
     private Keyboard.Key key;
-    private KeyboardView kv;
     private boolean isBackspace = false;
 
     public View onCreateInputView() {
-        kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        KeyboardView kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         Keyboard keyboard = new Keyboard(this, R.xml.qwerty);
         kv.setKeyboard(keyboard);
         kv.setOnKeyboardActionListener(this);
@@ -46,7 +45,7 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
 
         scheduler.cancel();
         scheduler = new Timer();
-        scheduler.scheduleAtFixedRate(backspace, (long)(7 * MorseListener.DOT), (long)(2 * MorseListener.DOT));
+        scheduler.scheduleAtFixedRate(backspace, 7 * MorseListener.DOT, 2 * MorseListener.DOT);
     }
 
     public void onRelease(int primaryCode) {
@@ -64,7 +63,7 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
                 if (dotsAndDashes != null && !isBackspace) {
                     String character = Translator.translate(dotsAndDashes);
                     getCurrentInputConnection().commitText(character, 1);
-                    scheduler.schedule(space, 4 * (long)MorseListener.DOT);
+                    scheduler.schedule(space, 4 * MorseListener.DOT);
                 }
             }
         };
@@ -75,7 +74,7 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
 
         scheduler.cancel();
         scheduler = new Timer();
-        scheduler.schedule(print, 3 * (long)MorseListener.DOT);
+        scheduler.schedule(print, 3 * MorseListener.DOT);
     }
 
     // random interface crap
