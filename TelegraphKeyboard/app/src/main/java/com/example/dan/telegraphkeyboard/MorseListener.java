@@ -5,10 +5,9 @@ public class MorseListener {
 	private long timeSince;
 	private long start;
 	private long end;
-	public static final double MOD = 1000;
-	public static final double DOT = .25 * MOD;
+	public static final double DOT = 150;
 	public static final double DASH = 3 * DOT;
-	
+
 	String press(long millis){
 		start = millis;
 		timeSince =  System.currentTimeMillis() - end;

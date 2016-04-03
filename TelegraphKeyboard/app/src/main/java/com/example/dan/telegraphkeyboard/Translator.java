@@ -133,7 +133,27 @@ public class Translator
             case "--..--":
                 text = ",";
                 break;
-            default: // bad input
+            case "---...":
+                text = ":";
+                break;
+            case "-....-":
+                text = "-";
+                break;
+            case ".----.":
+                text = "'";
+                break;
+            case "-..-.":
+                text = "/";
+                break;
+            case "..--..":
+                text = "?";
+                break;
+            case "-.--.-":
+                text = ")"; // Open and close parens are the same symbol, but we can only have one here
+                break;
+
+            // Ignore bad input
+            default:
                 text = "";
                 break;
         }

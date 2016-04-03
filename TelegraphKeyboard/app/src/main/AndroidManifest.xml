@@ -12,7 +12,7 @@
                  <!--android:theme="@style/AppTheme"-->
 
         <service android:name=".Telegraph"
-                 android:label="insert label here"
+                 android:label="Minimalist Keyboard"
                  android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data android:name="android.view.im" android:resource="@xml/method"/>
             <intent-filter>
