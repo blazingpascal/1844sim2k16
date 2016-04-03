@@ -3,11 +3,8 @@ package com.example.dan.telegraphkeyboard;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
-import android.media.AudioFormat;
-import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.media.JetPlayer;
-import android.os.Handler;
+import android.os.AsyncTask;
 import android.view.View;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,8 +15,8 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
     private Timer scheduler = new Timer();
     private AudioTrack player;
     private Keyboard.Key key;
-    private boolean isBackspace = false;
     private KeyboardView kv;
+    private boolean isBackspace = false;
 
     public View onCreateInputView() {
         kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -55,7 +52,8 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
     public void onRelease(int primaryCode) {
         TimerTask space = new TimerTask() {
             public void run() {
-                getCurrentInputConnection().commitText(" ", 1);
+                if (!isBackspace)
+                    getCurrentInputConnection().commitText(" ", 1);
             }
         };
 
@@ -66,18 +64,18 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
                 if (dotsAndDashes != null && !isBackspace) {
                     String character = Translator.translate(dotsAndDashes);
                     getCurrentInputConnection().commitText(character, 1);
+                    scheduler.schedule(space, 4 * (long)MorseListener.DOT);
                 }
-
-                scheduler.schedule(space, (long)(4 * MorseListener.DOT));
             }
         };
 
         player.release();
         state.release(System.currentTimeMillis());
+        key.label = state.getCurrentState();
+
         scheduler.cancel();
         scheduler = new Timer();
-        scheduler.schedule(print, (long)MorseListener.DASH);
-        key.label = state.getCurrentState();
+        scheduler.schedule(print, 3 * (long)MorseListener.DOT);
     }
 
     // random interface crap
