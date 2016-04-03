@@ -133,7 +133,24 @@ public class Translator
             case "--..--":
                 text = ",";
                 break;
-            default: // bad input
+            case "---...":
+                text = ":";
+                break;
+            case "-....-":
+                text = "-";
+                break;
+            case ".----.":
+                text = "'";
+                break;
+            case "-..-.":
+                text = "/";
+                break;
+            case "..--..":
+                text = "?";
+                break;
+
+            // Ignore bad input
+            default:
                 text = "";
                 break;
         }
