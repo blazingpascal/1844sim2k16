@@ -152,6 +152,11 @@ public class Translator
                 text = ")"; // Open and close parens are the same symbol, but we can only have one here
                 break;
 
+            // SOS is actually its own symbol
+            case "...---...":
+                text = "SOS";
+                break;
+
             // Ignore bad input
             default:
                 text = "";
