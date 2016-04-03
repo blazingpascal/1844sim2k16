@@ -19,9 +19,10 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
     private AudioTrack player;
     private Keyboard.Key key;
     private boolean isBackspace = false;
+    private KeyboardView kv;
 
     public View onCreateInputView() {
-        KeyboardView kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         Keyboard keyboard = new Keyboard(this, R.xml.qwerty);
         kv.setKeyboard(keyboard);
         kv.setOnKeyboardActionListener(this);
@@ -55,7 +56,6 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
         TimerTask space = new TimerTask() {
             public void run() {
                 getCurrentInputConnection().commitText(" ", 1);
-                key.label = "asdf";
             }
         };
 
