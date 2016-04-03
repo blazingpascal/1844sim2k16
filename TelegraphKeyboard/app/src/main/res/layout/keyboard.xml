@@ -6,4 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:keyPreviewLayout ="@layout/preview"
+    android:keyTextSize="60dp"
+    android:labelTextSize="60dp"
 />

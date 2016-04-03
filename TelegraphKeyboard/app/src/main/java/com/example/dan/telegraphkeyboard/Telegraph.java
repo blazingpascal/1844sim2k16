@@ -14,19 +14,19 @@ import java.util.TimerTask;
 
 public class Telegraph extends InputMethodService implements KeyboardView.OnKeyboardActionListener
 {
-    private KeyboardView kv;
-    private Keyboard keyboard;
     private MorseListener state = new MorseListener();
     private Timer scheduler = new Timer();
-    private boolean isBackspace = false;
     private AudioTrack player;
+    private Keyboard.Key key;
+    private boolean isBackspace = false;
 
     public View onCreateInputView() {
-        kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-        keyboard = new Keyboard(this, R.xml.qwerty);
+        KeyboardView kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        Keyboard keyboard = new Keyboard(this, R.xml.qwerty);
         kv.setKeyboard(keyboard);
         kv.setOnKeyboardActionListener(this);
         kv.setPreviewEnabled(false);
+        key = keyboard.getKeys().get(0);
         return kv;
     }
 
@@ -41,8 +41,11 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
         if (player != null) player.release();
         player = TonePlayer.generate();
         player.play();
+
         isBackspace = false;
         state.press(System.currentTimeMillis());
+        key.label = state.getCurrentState();
+
         scheduler.cancel();
         scheduler = new Timer();
         scheduler.scheduleAtFixedRate(backspace, (long)(7 * MorseListener.DOT), (long)(2 * MorseListener.DOT));
@@ -52,6 +55,7 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
         TimerTask space = new TimerTask() {
             public void run() {
                 getCurrentInputConnection().commitText(" ", 1);
+                key.label = "asdf";
             }
         };
 
@@ -73,6 +77,7 @@ public class Telegraph extends InputMethodService implements KeyboardView.OnKeyb
         scheduler.cancel();
         scheduler = new Timer();
         scheduler.schedule(print, (long)MorseListener.DASH);
+        key.label = state.getCurrentState();
     }
 
     // random interface crap
