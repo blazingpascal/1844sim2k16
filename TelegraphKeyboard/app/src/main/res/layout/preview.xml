@@ -7,17 +7,3 @@
           android:textStyle="bold"
           android:textSize="30sp">
 </TextView>
-
-        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical" >-->
-        <!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center"-->
-        <!--android:background="#5c5c3d"-->
-        <!--android:textStyle="bold"-->
-        <!--android:textSize="30sp">-->
-        <!--</TextView>-->
-        <!--</LinearLayout>-->

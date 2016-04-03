@@ -7,7 +7,7 @@ import android.os.Handler;
 
 public class TonePlayer
 {
-    private static int duration = 10;
+    private static int duration = 3;
     private static int sampleRate = 8000;
     private static int numSamples = duration * sampleRate;
     private static double[] sample = new double[numSamples];
